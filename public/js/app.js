@@ -14763,8 +14763,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var constants = {
   // HOST_URL: 'https://laravel-react-boilerplate.herokuapp.com/api',
-  // HOST_URL: 'http://127.0.0.1:8000/api',
-  HOST_URL: 'http://167.172.176.233/api',
+  HOST_URL: 'http://127.0.0.1:8000/api',
+  // HOST_URL: 'http://167.172.176.233/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
@@ -14831,6 +14831,9 @@ var actions = {
   CREATE_TASK: 'CREATE_TASK',
   CREATE_TASK_SUCCESS: 'CREATE_TASK_SUCCESS',
   CREATE_TASK_FAILURE: 'CREATE_TASK_FAILURE',
+  GET_TASK: 'GET_TASK',
+  GET_TASK_SUCCESS: 'GET_TASK_SUCCESS',
+  GET_TASK_FAILURE: 'GET_TASK_FAILURE',
   GET_TASKS: 'GET_TASKS',
   GET_TASKS_SUCCESS: 'GET_TASKS_SUCCESS',
   GET_TASKS_FAILURE: 'GET_TASKS_FAILURE',
@@ -14839,7 +14842,10 @@ var actions = {
   UPDATE_TASK_FAILURE: 'UPDATE_TASK_FAILURE',
   DELETE_TASK: 'DELETE_TASK',
   DELETE_TASK_SUCCESS: 'DELETE_TASK_SUCCESS',
-  DELETE_TASK_FAILURE: 'DELETE_TASK_FAILURE'
+  DELETE_TASK_FAILURE: 'DELETE_TASK_FAILURE',
+  EDIT_TASK: 'EDIT_TASK',
+  EDIT_TASK_SUCCESS: 'EDIT_TASK_SUCCESS',
+  EDIT_TASK_FAILURE: 'EDIT_TASK_FAILURE'
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (actions);
 
@@ -14870,7 +14876,9 @@ var _marked = /*#__PURE__*/_regeneratorRuntime().mark(login),
     _marked4 = /*#__PURE__*/_regeneratorRuntime().mark(logout),
     _marked5 = /*#__PURE__*/_regeneratorRuntime().mark(createTask),
     _marked6 = /*#__PURE__*/_regeneratorRuntime().mark(getTasks),
-    _marked7 = /*#__PURE__*/_regeneratorRuntime().mark(rootSaga);
+    _marked7 = /*#__PURE__*/_regeneratorRuntime().mark(getTask),
+    _marked8 = /*#__PURE__*/_regeneratorRuntime().mark(editTask),
+    _marked9 = /*#__PURE__*/_regeneratorRuntime().mark(rootSaga);
 
 
 
@@ -15134,40 +15142,128 @@ function getTasks() {
   }, _marked6, null, [[0, 8]]);
 }
 
-function rootSaga() {
-  return _regeneratorRuntime().wrap(function rootSaga$(_context7) {
+function getTask(action) {
+  var response;
+  return _regeneratorRuntime().wrap(function getTask$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
-          _context7.next = 2;
-          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].LOGIN, login)]);
+          _context7.prev = 0;
+          _context7.next = 3;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.call)(function () {
+            return (0,_config_axiosClient__WEBPACK_IMPORTED_MODULE_2__.getRequest)("tasks/".concat(action.payload));
+          });
 
-        case 2:
-          _context7.next = 4;
-          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].GET_AUTH_USER, getAuthUser)]);
-
-        case 4:
+        case 3:
+          response = _context7.sent;
           _context7.next = 6;
-          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].LOGOUT, logout)]);
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.put)({
+            type: _Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].GET_TASK_SUCCESS,
+            payload: response.data
+          });
 
         case 6:
-          _context7.next = 8;
-          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].REGISTER, register)]);
+          _context7.next = 12;
+          break;
 
         case 8:
-          _context7.next = 10;
-          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].CREATE_TASK, createTask)]);
-
-        case 10:
+          _context7.prev = 8;
+          _context7.t0 = _context7["catch"](0);
           _context7.next = 12;
-          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].GET_TASKS, getTasks)]);
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.put)({
+            type: _Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].GET_TASK_FAILURE
+          });
 
         case 12:
         case "end":
           return _context7.stop();
       }
     }
-  }, _marked7);
+  }, _marked7, null, [[0, 8]]);
+}
+
+function editTask(action) {
+  var response;
+  return _regeneratorRuntime().wrap(function editTask$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.prev = 0;
+          _context8.next = 3;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.call)(function () {
+            return (0,_config_axiosClient__WEBPACK_IMPORTED_MODULE_2__.postRequest)("tasks/".concat(action.payload.id), action.payload);
+          });
+
+        case 3:
+          response = _context8.sent;
+          _context8.next = 6;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.put)({
+            type: _Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].EDIT_TASK_SUCCESS,
+            payload: response.data
+          });
+
+        case 6:
+          _context8.next = 12;
+          break;
+
+        case 8:
+          _context8.prev = 8;
+          _context8.t0 = _context8["catch"](0);
+          _context8.next = 12;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.put)({
+            type: _Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].EDIT_TASK_FAILURE
+          });
+
+        case 12:
+        case "end":
+          return _context8.stop();
+      }
+    }
+  }, _marked8, null, [[0, 8]]);
+}
+
+function rootSaga() {
+  return _regeneratorRuntime().wrap(function rootSaga$(_context9) {
+    while (1) {
+      switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.next = 2;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].LOGIN, login)]);
+
+        case 2:
+          _context9.next = 4;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].GET_AUTH_USER, getAuthUser)]);
+
+        case 4:
+          _context9.next = 6;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].LOGOUT, logout)]);
+
+        case 6:
+          _context9.next = 8;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].REGISTER, register)]);
+
+        case 8:
+          _context9.next = 10;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].CREATE_TASK, createTask)]);
+
+        case 10:
+          _context9.next = 12;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].GET_TASKS, getTasks)]);
+
+        case 12:
+          _context9.next = 14;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].GET_TASK, getTask)]);
+
+        case 14:
+          _context9.next = 16;
+          return (0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.all)([(0,redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__.takeLatest)(_Authenticate_actions__WEBPACK_IMPORTED_MODULE_1__["default"].EDIT_TASK, editTask)]);
+
+        case 16:
+        case "end":
+          return _context9.stop();
+      }
+    }
+  }, _marked9);
 }
 
 /***/ }),
@@ -15352,6 +15448,45 @@ function Reducer() {
     case action.DELETE_TASK_FAILURE:
       return _objectSpread(_objectSpread({}, state), {}, {
         deleteTaskLoader: false
+      });
+
+    case action.GET_TASK:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        getTaskLoader: true
+      });
+
+    case action.GET_TASK_SUCCESS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        getTaskLoader: false,
+        title: action.payload.data.title,
+        description: action.payload.data.description,
+        status: action.payload.data.status,
+        due_date: action.payload.data.due_date
+      });
+
+    case action.GET_TASK_FAILURE:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        getTaskLoader: false
+      });
+
+    case action.EDIT_TASK:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        editTaskLoader: true
+      });
+
+    case action.EDIT_TASK_SUCCESS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        editTaskLoader: false,
+        id: action.payload.data.id,
+        title: action.payload.data.title,
+        description: action.payload.data.description,
+        status: action.payload.data.status,
+        due_date: action.payload.data.due_date
+      });
+
+    case action.EDIT_TASK_FAILURE:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        editTaskLoader: false
       });
 
     default:
@@ -15708,15 +15843,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
-  path: 'dashboard',
+  path: 'home',
   component: /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.lazy)(function () {
-    return __webpack_require__.e(/*! import() */ "resources_js_components_Dashboard_js").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Dashboard */ "./resources/js/components/Dashboard.js"));
+    return __webpack_require__.e(/*! import() */ "resources_js_components_HomePage_js").then(__webpack_require__.bind(__webpack_require__, /*! ../components/HomePage */ "./resources/js/components/HomePage.js"));
   }),
   exact: true
 }, {
   path: 'create-task',
   component: /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.lazy)(function () {
     return __webpack_require__.e(/*! import() */ "resources_js_components_CreateTaskPage_js").then(__webpack_require__.bind(__webpack_require__, /*! ../components/CreateTaskPage */ "./resources/js/components/CreateTaskPage.js"));
+  }),
+  exact: true
+}, {
+  path: 'edit-task/:id',
+  component: /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.lazy)(function () {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_EditTaskPage_js").then(__webpack_require__.bind(__webpack_require__, /*! ../components/EditTaskPage */ "./resources/js/components/EditTaskPage.js"));
   }),
   exact: true
 }]);
@@ -83051,7 +83192,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_LoginPage_js":1,"resources_js_components_Register_js":1,"resources_js_components_Dashboard_js":1,"resources_js_components_CreateTaskPage_js":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_LoginPage_js":1,"resources_js_components_Register_js":1,"resources_js_components_HomePage_js":1,"resources_js_components_CreateTaskPage_js":1,"resources_js_components_EditTaskPage_js":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
